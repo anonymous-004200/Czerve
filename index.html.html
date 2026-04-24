@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Czerve Corporation Co., Ltd.</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;800&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F26522;
+    --orange-light: #FF8A4A;
+    --orange-dark: #C94E0A;
+    --white: #FFFFFF;
+    --off-white: #FFF8F4;
+    --gray-light: #F5F5F5;
+    --gray: #888888;
+    --dark: #1A1A1A;
+    --shadow: 0 8px 32px rgba(242,101,34,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Sarabun', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
+  
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+    border-bottom: 3px solid var(--orange);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 70px;
+    box-shadow: 0 2px 20px rgba(242,101,34,0.1);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; }
+  .nav-logo .logo-text { font-family: 'Kanit', sans-serif; font-size: 1.6rem; font-weight: 800; }
+  .nav-logo .logo-text span:first-child { color: var(--orange); }
+  .nav-logo .logo-text span:last-child { color: var(--gray); font-size: 0.75rem; font-weight: 400; display: block; line-height: 1; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'Kanit', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--dark); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta { background: var(--orange); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-family: 'Kanit', sans-serif; font-weight: 600; cursor: pointer; transition: background 0.2s; font-size: 0.9rem; }
+  .nav-cta:hover { background: var(--orange-dark); }
+  
+  /* HERO */
+  .hero {
+    margin-top: 70px; min-height: 92vh;
+    background: linear-gradient(135deg, #1A1A1A 0%, #2D1500 50%, #1A1A1A 100%);
+    display: flex; align-items: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(242,101,34,0.25) 0%, transparent 70%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--orange) 1px, transparent 1px), linear-gradient(90deg, var(--orange) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  .hero-content { position: relative; z-index: 2; padding: 5% 8%; max-width: 700px; }
+  .hero-tag { display: inline-block; background: var(--orange); color: white; font-family: 'Kanit', sans-serif; font-size: 0.8rem; font-weight: 600; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; letter-spacing: 1px; text-transform: uppercase; }
+  .hero-title { font-family: 'Kanit', sans-serif; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 800; color: white; line-height: 1.1; margin-bottom: 20px; }
+  .hero-title em { color: var(--orange); font-style: normal; }
+  .hero-sub { font-family: 'Sarabun', sans-serif; font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.8; margin-bottom: 40px; max-width: 520px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary { background: var(--orange); color: white; border: none; padding: 14px 32px; border-radius: 8px; font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(242,101,34,0.4); }
+  .btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.4); padding: 14px 32px; border-radius: 8px; font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+  .hero-stats { position: absolute; right: 8%; bottom: 12%; display: flex; gap: 40px; z-index: 2; }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Kanit', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--orange); }
+  .stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  
+  /* SECTION COMMON */
+  section { padding: 90px 8%; }
+  .section-tag { display: inline-block; color: var(--orange); font-family: 'Kanit', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-family: 'Kanit', sans-serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+  .section-desc { color: var(--gray); line-height: 1.9; font-size: 1.05rem; max-width: 600px; }
+  
+  /* ABOUT */
+  .about { background: var(--off-white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual { position: relative; }
+  .about-card {
+    background: white; border-radius: 16px; padding: 36px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--orange);
+  }
+  .about-card h3 { font-family: 'Kanit', sans-serif; font-size: 1.1rem; color: var(--orange); font-weight: 700; margin-bottom: 12px; }
+  .about-card p { color: var(--gray); line-height: 1.8; font-size: 0.95rem; }
+  .about-cards { display: flex; flex-direction: column; gap: 20px; }
+  .vision-mission { margin-top: 32px; }
+  .vm-item { display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start; }
+  .vm-icon { width: 48px; height: 48px; background: var(--orange); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.3rem; }
+  .vm-text h4 { font-family: 'Kanit', sans-serif; font-weight: 700; margin-bottom: 6px; }
+  .vm-text p { color: var(--gray); font-size: 0.9rem; line-height: 1.7; }
+  
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; margin-top: 56px; }
+  .service-card {
+    background: white; border-radius: 16px; padding: 36px;
+    border: 1px solid #F0E8E0; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: var(--orange); transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+  .service-icon { width: 60px; height: 60px; background: rgba(242,101,34,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 20px; }
+  .service-card h3 { font-family: 'Kanit', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; color: var(--dark); }
+  .service-card p { color: var(--gray); line-height: 1.8; font-size: 0.92rem; }
+  .service-price { margin-top: 20px; padding-top: 16px; border-top: 1px solid #F0E8E0; font-family: 'Kanit', sans-serif; color: var(--orange); font-weight: 700; font-size: 0.95rem; }
+  
+  /* ISO SECTION */
+  .iso-section { background: linear-gradient(135deg, #1A1A1A 0%, #2D1500 100%); color: white; }
+  .iso-section .section-title { color: white; }
+  .iso-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .iso-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(242,101,34,0.3); border-radius: 16px; padding: 32px; transition: all 0.3s; }
+  .iso-card:hover { background: rgba(242,101,34,0.1); border-color: var(--orange); transform: translateY(-4px); }
+  .iso-badge { display: inline-block; background: var(--orange); color: white; font-family: 'Kanit', sans-serif; font-weight: 800; font-size: 1rem; padding: 8px 20px; border-radius: 8px; margin-bottom: 20px; }
+  .iso-card h3 { font-family: 'Kanit', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: white; }
+  .iso-card p { color: rgba(255,255,255,0.65); line-height: 1.8; font-size: 0.9rem; }
+  
+  /* CONTACT */
+  .contact { background: var(--off-white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-top: 56px; }
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item { display: flex; gap: 16px; align-items: flex-start; }
+  .contact-icon { width: 48px; height: 48px; background: var(--orange); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+  .contact-text h4 { font-family: 'Kanit', sans-serif; font-weight: 700; margin-bottom: 4px; }
+  .contact-text p { color: var(--gray); font-size: 0.9rem; }
+  .contact-form { background: white; border-radius: 16px; padding: 40px; box-shadow: var(--shadow); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; color: var(--dark); }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 12px 16px; border: 1px solid #E8E0D8; border-radius: 8px;
+    font-family: 'Sarabun', sans-serif; font-size: 0.95rem; color: var(--dark);
+    transition: border-color 0.2s; outline: none; background: #FAFAFA;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--orange); background: white; }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  
+  /* FOOTER */
+  footer { background: #111; color: rgba(255,255,255,0.7); padding: 60px 8% 32px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand .logo-text { font-family: 'Kanit', sans-serif; font-size: 1.6rem; font-weight: 800; }
+  .footer-brand .logo-text span:first-child { color: var(--orange); }
+  .footer-brand p { margin-top: 16px; font-size: 0.9rem; line-height: 1.8; }
+  .footer-col h4 { font-family: 'Kanit', sans-serif; color: white; font-weight: 700; margin-bottom: 16px; font-size: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--orange); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+  
+  /* CMS PANEL */
+  #cms-toggle {
+    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+    background: var(--orange); color: white; border: none;
+    padding: 14px 20px; border-radius: 12px; cursor: pointer;
+    font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 0.9rem;
+    box-shadow: 0 4px 20px rgba(242,101,34,0.5); transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #cms-toggle:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(242,101,34,0.6); }
+  
+  #cms-panel {
+    position: fixed; top: 0; right: -520px; width: 500px; height: 100vh; z-index: 9998;
+    background: white; box-shadow: -8px 0 40px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-family: 'Sarabun', sans-serif;
+  }
+  #cms-panel.open { right: 0; }
+  .cms-header {
+    background: linear-gradient(135deg, var(--orange-dark), var(--orange));
+    color: white; padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .cms-header h2 { font-family: 'Kanit', sans-serif; font-size: 1.1rem; font-weight: 700; }
+  .cms-header span { font-size: 0.8rem; opacity: 0.8; }
+  .cms-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+  .cms-tabs { display: flex; background: #F8F8F8; border-bottom: 1px solid #EEE; flex-shrink: 0; }
+  .cms-tab { flex: 1; padding: 12px; border: none; background: none; cursor: pointer; font-family: 'Kanit', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--gray); transition: all 0.2s; border-bottom: 3px solid transparent; }
+  .cms-tab.active { color: var(--orange); border-bottom-color: var(--orange); background: white; }
+  .cms-body { flex: 1; overflow-y: auto; padding: 24px; }
+  .cms-section { display: none; }
+  .cms-section.active { display: block; }
+  .cms-field { margin-bottom: 20px; }
+  .cms-field label { display: block; font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 0.82rem; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .cms-field input, .cms-field textarea {
+    width: 100%; padding: 10px 14px; border: 1.5px solid #E8E8E8; border-radius: 8px;
+    font-family: 'Sarabun', sans-serif; font-size: 0.9rem; transition: border-color 0.2s;
+    outline: none;
+  }
+  .cms-field input:focus, .cms-field textarea:focus { border-color: var(--orange); }
+  .cms-field textarea { resize: vertical; min-height: 80px; }
+  .cms-divider { height: 1px; background: #EEE; margin: 24px 0; }
+  .cms-subtitle { font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 1rem; color: var(--dark); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--orange); display: flex; align-items: center; gap: 8px; }
+  .cms-footer { padding: 16px 24px; border-top: 1px solid #EEE; display: flex; gap: 12px; flex-shrink: 0; }
+  .cms-save { flex: 1; background: var(--orange); color: white; border: none; padding: 12px; border-radius: 8px; font-family: 'Kanit', sans-serif; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .cms-save:hover { background: var(--orange-dark); }
+  .cms-reset { background: #F5F5F5; color: #888; border: none; padding: 12px 20px; border-radius: 8px; font-family: 'Kanit', sans-serif; font-weight: 600; cursor: pointer; }
+  .cms-toast { position: fixed; bottom: 90px; right: 24px; background: #222; color: white; padding: 14px 24px; border-radius: 10px; font-family: 'Kanit', sans-serif; font-size: 0.9rem; z-index: 99999; display: none; align-items: center; gap: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .cms-toast.show { display: flex; animation: fadeInUp 0.3s ease; }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .service-item { background: #FFF8F4; border: 1px solid #FDDCC4; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .service-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .service-item-header span { font-family: 'Kanit', sans-serif; font-weight: 700; color: var(--orange); font-size: 0.85rem; }
+  .service-item .cms-field { margin-bottom: 10px; }
+  .service-item .cms-field:last-child { margin-bottom: 0; }
+  .add-service-btn { width: 100%; padding: 10px; background: rgba(242,101,34,0.1); border: 2px dashed var(--orange); border-radius: 8px; color: var(--orange); font-family: 'Kanit', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; margin-top: 8px; }
+  .add-service-btn:hover { background: rgba(242,101,34,0.2); }
+
+  @media (max-width: 768px) {
+    .about-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+    .iso-grid { grid-template-columns: 1fr; }
+    .hero-stats { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    #cms-panel { width: 100%; right: -100%; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-text">
+      <span id="nav-name">czerve</span>
+      <span id="nav-tagline">corporation co.,ltd.</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">เกี่ยวกับเรา</a></li>
+    <li><a href="#services">บริการ</a></li>
+    <li><a href="#iso">ISO</a></li>
+    <li><a href="#contact">ติดต่อเรา</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">ติดต่อเรา</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag" id="hero-tag">ผู้เชี่ยวชาญด้านระบบมาตรฐาน</div>
+    <h1 class="hero-title">
+      <span id="hero-title-1">พัฒนาองค์กร</span><br>
+      ด้วย <em id="hero-title-em">มาตรฐาน ISO</em><br>
+      <span id="hero-title-2">ระดับสากล</span>
+    </h1>
+    <p class="hero-sub" id="hero-sub">บริษัท ซีเซิร์ฟ คอร์ปอร์เรชั่น จำกัด ผู้ชำนาญการด้านฝึกอบรมและที่ปรึกษาระบบคุณภาพ ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม ประสบการณ์มากกว่า 10 ปี</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">ดูบริการทั้งหมด</button>
+      <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">ปรึกษาฟรี</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" id="stat-exp">10+</div>
+      <div class="stat-label">ปีประสบการณ์</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-clients">500+</div>
+      <div class="stat-label">ลูกค้าที่ไว้วางใจ</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-courses">50+</div>
+      <div class="stat-label">หลักสูตรอบรม</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-tag">เกี่ยวกับเรา</div>
+      <h2 class="section-title" id="about-title">ผู้เชี่ยวชาญด้านระบบมาตรฐานและความปลอดภัย</h2>
+      <p class="section-desc" id="about-desc">ก่อตั้งเมื่อวันที่ 1 สิงหาคม พ.ศ. 2559 เราให้บริการด้านฝึกอบรมและที่ปรึกษาการจัดทำระบบด้านคุณภาพ ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม ครอบคลุมทั้งการตรวจประเมินภายใน ตรวจประเมินกฎหมาย การจัดทำสื่อการสอน E-Learning และการจัดการห้องพยาบาล</p>
+      <div class="vision-mission">
+        <div class="vm-item">
+          <div class="vm-icon">🎯</div>
+          <div class="vm-text">
+            <h4>วิสัยทัศน์</h4>
+            <p id="vision-text">มุ่งสู่ความเป็นบริษัทชั้นนำในด้านที่ปรึกษาการจัดทำระบบมาตรฐาน บริการฝึกอบรม และอาชีวอนามัยที่ตอบโจทย์ลูกค้าอย่างสูงสุด</p>
+          </div>
+        </div>
+        <div class="vm-item">
+          <div class="vm-icon">⚡</div>
+          <div class="vm-text">
+            <h4>พันธกิจ</h4>
+            <p id="mission-text">เป็นผู้เชี่ยวชาญด้านการฝึกอบรม ให้บริการที่ปรึกษาระบบมาตรฐานโดยมุ่งเน้นการใช้งานได้จริง และสร้างความพึงพอใจสูงสุดแก่ลูกค้า</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-cards">
+      <div class="about-card">
+        <h3>🏆 ประสบการณ์</h3>
+        <p id="about-card1">ผู้ชำนาญการครอบคลุมหลายสาขา ประสบการณ์มากกว่า 10 ปี ให้บริการกับลูกค้าหลากหลายกลุ่มและหลายประเภทธุรกิจ</p>
+      </div>
+      <div class="about-card">
+        <h3>🤝 ความไว้วางใจ</h3>
+        <p id="about-card2">ให้บริการต่อลูกค้าโดยตรงเพื่อผลประโยชน์สูงสุด ทั้งด้านประสิทธิภาพ คุณภาพ และความคุ้มค่าในการลงทุน</p>
+      </div>
+      <div class="about-card">
+        <h3>💡 นวัตกรรม</h3>
+        <p id="about-card3">คิดค้นนวัตกรรมใหม่ๆ เพื่อตอบสนองความต้องการขององค์กร และช่วยส่งเสริมประสิทธิภาพการทำงานภายในองค์กร</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background: white;">
+  <div class="section-tag">บริการของเรา</div>
+  <h2 class="section-title">บริการครบวงจรสำหรับองค์กร</h2>
+  <p class="section-desc">เราพร้อมให้บริการตั้งแต่การฝึกอบรม การจัดทำระบบมาตรฐาน ไปจนถึงการดูแลสุขภาพบุคลากร</p>
+  <div class="services-grid" id="services-container">
+    <!-- rendered by JS -->
+  </div>
+</section>
+
+<!-- ISO -->
+<section class="iso-section" id="iso">
+  <div class="section-tag" style="color: var(--orange-light);">ระบบมาตรฐาน ISO</div>
+  <h2 class="section-title">ที่ปรึกษาจัดทำระบบมาตรฐาน</h2>
+  <p class="section-desc" style="color: rgba(255,255,255,0.65);">การจัดทำระบบ ISO นั้นไม่ได้ยากอย่างที่คิด หากมีที่ปรึกษามืออาชีพที่มีประสบการณ์หลากหลาย</p>
+  <div class="iso-grid" id="iso-container">
+    <!-- rendered by JS -->
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-tag">ติดต่อเรา</div>
+  <h2 class="section-title">พร้อมให้คำปรึกษาฟรี</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-text">
+          <h4>ที่อยู่</h4>
+          <p id="contact-address">เลขที่ 338/23 หมู่ที่ 8 ต.สุรศักดิ์ อ.ศรีราชา จ.ชลบุรี 20110</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-text">
+          <h4>โทรศัพท์</h4>
+          <p id="contact-phone">061-6291563 หรือ 089-2459169</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-text">
+          <h4>อีเมล</h4>
+          <p id="contact-email">czervecorp@gmail.com</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">💬</div>
+        <div class="contact-text">
+          <h4>Facebook</h4>
+          <p id="contact-facebook">Czerve</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <h3 style="font-family: 'Kanit',sans-serif; font-size:1.2rem; margin-bottom:24px; color: var(--dark);">ส่งข้อความถึงเรา</h3>
+      <div class="form-row">
+        <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" placeholder="กรอกชื่อของคุณ"></div>
+        <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="tel" placeholder="0XX-XXXXXXX"></div>
+      </div>
+      <div class="form-group"><label>อีเมล</label><input type="email" placeholder="email@example.com"></div>
+      <div class="form-group">
+        <label>บริการที่สนใจ</label>
+        <select>
+          <option>เลือกบริการ...</option>
+          <option>ที่ปรึกษา ISO 9001</option>
+          <option>ที่ปรึกษา ISO 14001</option>
+          <option>ที่ปรึกษา ISO 45001</option>
+          <option>บริการฝึกอบรม</option>
+          <option>E-Learning</option>
+          <option>บริการพยาบาล</option>
+        </select>
+      </div>
+      <div class="form-group"><label>ข้อความ</label><textarea placeholder="รายละเอียดที่ต้องการสอบถาม..."></textarea></div>
+      <button class="btn-primary" style="width:100%">ส่งข้อความ →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text"><span>czerve</span> <span style="color:rgba(255,255,255,0.5); font-size:1rem; font-weight:400;">corporation co.,ltd.</span></div>
+      <p id="footer-desc">ผู้เชี่ยวชาญด้านการฝึกอบรมและที่ปรึกษาการจัดทำระบบมาตรฐาน ISO ด้านคุณภาพ ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</p>
+    </div>
+    <div class="footer-col">
+      <h4>บริการ</h4>
+      <ul>
+        <li><a href="#">ที่ปรึกษา ISO</a></li>
+        <li><a href="#">บริการฝึกอบรม</a></li>
+        <li><a href="#">E-Learning</a></li>
+        <li><a href="#">บริการพยาบาล</a></li>
+        <li><a href="#">ตรวจประเมิน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>ติดต่อ</h4>
+      <ul>
+        <li><a href="#">czervecorp@gmail.com</a></li>
+        <li><a href="#">061-6291563</a></li>
+        <li><a href="#">089-2459169</a></li>
+        <li><a href="#">Facebook: Czerve</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span id="footer-copy">© 2024 Czerve Corporation Co., Ltd. All rights reserved.</span>
+    <span style="color: var(--orange);">ศรีราชา จ.ชลบุรี</span>
+  </div>
+</footer>
+
+<!-- CMS TOGGLE -->
+<button id="cms-toggle" onclick="toggleCMS()">
+  <span>⚙️</span> จัดการเนื้อหา
+</button>
+
+<!-- CMS PANEL -->
+<div id="cms-panel">
+  <div class="cms-header">
+    <div>
+      <h2>🛠️ ระบบจัดการเนื้อหา</h2>
+      <span>Czerve CMS — แก้ไขข้อมูลเว็บไซต์</span>
+    </div>
+    <button class="cms-close" onclick="toggleCMS()">✕</button>
+  </div>
+  <div class="cms-tabs">
+    <button class="cms-tab active" onclick="switchTab('general')">ทั่วไป</button>
+    <button class="cms-tab" onclick="switchTab('services')">บริการ</button>
+    <button class="cms-tab" onclick="switchTab('iso')">ISO</button>
+    <button class="cms-tab" onclick="switchTab('contact')">ติดต่อ</button>
+  </div>
+  <div class="cms-body">
+
+    <!-- GENERAL TAB -->
+    <div class="cms-section active" id="tab-general">
+      <div class="cms-subtitle">🏠 Hero Section</div>
+      <div class="cms-field"><label>แท็กหัว (Hero Tag)</label><input id="f-hero-tag" placeholder="ผู้เชี่ยวชาญด้านระบบมาตรฐาน"></div>
+      <div class="cms-field"><label>หัวข้อหลัก บรรทัด 1</label><input id="f-hero-t1" placeholder="พัฒนาองค์กร"></div>
+      <div class="cms-field"><label>หัวข้อ Highlight (สีส้ม)</label><input id="f-hero-em" placeholder="มาตรฐาน ISO"></div>
+      <div class="cms-field"><label>หัวข้อหลัก บรรทัด 2</label><input id="f-hero-t2" placeholder="ระดับสากล"></div>
+      <div class="cms-field"><label>คำอธิบาย Hero</label><textarea id="f-hero-sub"></textarea></div>
+      <div class="cms-field"><label>สถิติ: ปีประสบการณ์</label><input id="f-stat-exp" placeholder="10+"></div>
+      <div class="cms-field"><label>สถิติ: จำนวนลูกค้า</label><input id="f-stat-clients" placeholder="500+"></div>
+      <div class="cms-field"><label>สถิติ: หลักสูตร</label><input id="f-stat-courses" placeholder="50+"></div>
+      <div class="cms-divider"></div>
+      <div class="cms-subtitle">ℹ️ เกี่ยวกับเรา</div>
+      <div class="cms-field"><label>หัวข้อ About</label><input id="f-about-title"></div>
+      <div class="cms-field"><label>คำอธิบาย About</label><textarea id="f-about-desc"></textarea></div>
+      <div class="cms-field"><label>วิสัยทัศน์</label><textarea id="f-vision"></textarea></div>
+      <div class="cms-field"><label>พันธกิจ</label><textarea id="f-mission"></textarea></div>
+      <div class="cms-field"><label>การ์ด: ประสบการณ์</label><textarea id="f-card1"></textarea></div>
+      <div class="cms-field"><label>การ์ด: ความไว้วางใจ</label><textarea id="f-card2"></textarea></div>
+      <div class="cms-field"><label>การ์ด: นวัตกรรม</label><textarea id="f-card3"></textarea></div>
+    </div>
+
+    <!-- SERVICES TAB -->
+    <div class="cms-section" id="tab-services">
+      <div class="cms-subtitle">🛠️ บริการหลัก</div>
+      <p style="font-size:0.85rem; color:var(--gray); margin-bottom:16px;">แก้ไขหรือเพิ่มบริการของบริษัท</p>
+      <div id="services-cms-list"></div>
+      <button class="add-service-btn" onclick="addService()">+ เพิ่มบริการใหม่</button>
+    </div>
+
+    <!-- ISO TAB -->
+    <div class="cms-section" id="tab-iso">
+      <div class="cms-subtitle">📋 ระบบ ISO</div>
+      <div id="iso-cms-list"></div>
+    </div>
+
+    <!-- CONTACT TAB -->
+    <div class="cms-section" id="tab-contact">
+      <div class="cms-subtitle">📞 ข้อมูลติดต่อ</div>
+      <div class="cms-field"><label>ที่อยู่</label><textarea id="f-address"></textarea></div>
+      <div class="cms-field"><label>โทรศัพท์</label><input id="f-phone"></div>
+      <div class="cms-field"><label>อีเมล</label><input id="f-email" type="email"></div>
+      <div class="cms-field"><label>Facebook</label><input id="f-facebook"></div>
+      <div class="cms-divider"></div>
+      <div class="cms-subtitle">🔻 Footer</div>
+      <div class="cms-field"><label>คำอธิบาย Footer</label><textarea id="f-footer-desc"></textarea></div>
+      <div class="cms-field"><label>Copyright</label><input id="f-footer-copy"></div>
+    </div>
+
+  </div>
+  <div class="cms-footer">
+    <button class="cms-reset" onclick="loadDefaults()">↺ รีเซ็ต</button>
+    <button class="cms-save" onclick="saveAll()">💾 บันทึกทั้งหมด</button>
+  </div>
+</div>
+
+<div class="cms-toast" id="cms-toast">✅ บันทึกเรียบร้อยแล้ว!</div>
+
+<script>
+// ---- DATA ----
+const defaults = {
+  heroTag: 'ผู้เชี่ยวชาญด้านระบบมาตรฐาน',
+  heroT1: 'พัฒนาองค์กร', heroEm: 'มาตรฐาน ISO', heroT2: 'ระดับสากล',
+  heroSub: 'บริษัท ซีเซิร์ฟ คอร์ปอร์เรชั่น จำกัด ผู้ชำนาญการด้านฝึกอบรมและที่ปรึกษาระบบคุณภาพ ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม ประสบการณ์มากกว่า 10 ปี',
+  statExp: '10+', statClients: '500+', statCourses: '50+',
+  aboutTitle: 'ผู้เชี่ยวชาญด้านระบบมาตรฐานและความปลอดภัย',
+  aboutDesc: 'ก่อตั้งเมื่อวันที่ 1 สิงหาคม พ.ศ. 2559 เราให้บริการด้านฝึกอบรมและที่ปรึกษาการจัดทำระบบด้านคุณภาพ ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม ครอบคลุมทั้งการตรวจประเมินภายใน ตรวจประเมินกฎหมาย การจัดทำสื่อการสอน E-Learning และการจัดการห้องพยาบาล',
+  vision: 'มุ่งสู่ความเป็นบริษัทชั้นนำในด้านที่ปรึกษาการจัดทำระบบมาตรฐาน บริการฝึกอบรม และอาชีวอนามัยที่ตอบโจทย์ลูกค้าอย่างสูงสุด',
+  mission: 'เป็นผู้เชี่ยวชาญด้านการฝึกอบรม ให้บริการที่ปรึกษาระบบมาตรฐานโดยมุ่งเน้นการใช้งานได้จริง และสร้างความพึงพอใจสูงสุดแก่ลูกค้า',
+  card1: 'ผู้ชำนาญการครอบคลุมหลายสาขา ประสบการณ์มากกว่า 10 ปี ให้บริการกับลูกค้าหลากหลายกลุ่มและหลายประเภทธุรกิจ',
+  card2: 'ให้บริการต่อลูกค้าโดยตรงเพื่อผลประโยชน์สูงสุด ทั้งด้านประสิทธิภาพ คุณภาพ และความคุ้มค่าในการลงทุน',
+  card3: 'คิดค้นนวัตกรรมใหม่ๆ เพื่อตอบสนองความต้องการขององค์กร และช่วยส่งเสริมประสิทธิภาพการทำงานภายในองค์กร',
+  address: 'เลขที่ 338/23 หมู่ที่ 8 ต.สุรศักดิ์ อ.ศรีราชา จ.ชลบุรี 20110',
+  phone: '061-6291563 หรือ 089-2459169', email: 'czervecorp@gmail.com', facebook: 'Czerve',
+  footerDesc: 'ผู้เชี่ยวชาญด้านการฝึกอบรมและที่ปรึกษาการจัดทำระบบมาตรฐาน ISO ด้านคุณภาพ ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม',
+  footerCopy: '© 2024 Czerve Corporation Co., Ltd. All rights reserved.',
+  services: [
+    { icon: '🎓', name: 'บริการฝึกอบรม', desc: 'อบรมโดยวิทยากรมืออาชีพ มากประสบการณ์ เน้นการมีส่วนร่วม เนื้อหาครอบคลุมทันสมัย ด้านความปลอดภัย สิ่งแวดล้อม และคุณภาพ', price: 'ราคาพิเศษ ติดต่อสอบถาม' },
+    { icon: '🏅', name: 'ที่ปรึกษา ISO', desc: 'บริการจัดทำระบบ ISO 9001, 14001, 45001 โดยผู้เชี่ยวชาญ พร้อมคำแนะนำที่เข้าใจง่าย กระชับ รวดเร็ว', price: 'ราคาพิเศษ ติดต่อสอบถาม' },
+    { icon: '💻', name: 'E-Learning', desc: 'สร้างสื่อการเรียนการสอนอิเล็กทรอนิกส์ เนื้อหากระชับ มีแบบทดสอบ ระบบภาษาไทย/อังกฤษ รองรับการเรียนรู้ยุคดิจิทัล', price: 'ราคาพิเศษ ติดต่อสอบถาม' },
+    { icon: '🏥', name: 'บริการพยาบาล', desc: 'บริการพยาบาลประจำสถานประกอบกิจการ โดยพยาบาลผู้มีใบอนุญาต ครอบคลุมการดูแลสุขภาพบุคลากรอย่างครบวงจร', price: 'ราคาพิเศษ ติดต่อสอบถาม' },
+    { icon: '🔍', name: 'ตรวจประเมินภายใน', desc: 'บริการตรวจประเมินระบบภายใน และตรวจประเมินกฎหมาย โดยผู้ชำนาญการเพื่อความสอดคล้องและพัฒนาองค์กรอย่างต่อเนื่อง', price: 'ราคาพิเศษ ติดต่อสอบถาม' },
+    { icon: '📊', name: 'ประเมินอาชีวอนามัย', desc: 'การตรวจประเมินทางอาชีวเวชศาสตร์เพื่อกำหนดโปรแกรมตรวจสุขภาพพนักงาน วิเคราะห์ผลและให้คำปรึกษาด้านสุขภาพองค์กร', price: 'ราคาพิเศษ ติดต่อสอบถาม' },
+  ],
+  isoCards: [
+    { badge: 'ISO 9001', title: 'ระบบบริหารจัดการคุณภาพ', desc: 'พัฒนาระบบ QMS ให้เหมาะกับธุรกิจ สร้างความเข้าใจในการประยุกต์ใช้ ปรับ Procedure และ WI ให้สอดคล้องกับแต่ละหน้าที่ตำแหน่ง' },
+    { badge: 'ISO 14001', title: 'ระบบบริหารจัดการสิ่งแวดล้อม', desc: 'เพิ่มสมรรถนะสิ่งแวดล้อมภายในองค์กร ปรับให้สอดคล้องกับนโยบายสิ่งแวดล้อมของแต่ละองค์กร พร้อมการอบรมพนักงาน' },
+    { badge: 'ISO 45001', title: 'ระบบบริหารอาชีวอนามัยและความปลอดภัย', desc: 'เพิ่มประสิทธิภาพการควบคุมด้านอาชีวอนามัย ลดการสูญเสียจากอุบัติเหตุ สร้างสภาพแวดล้อมการทำงานที่ปลอดภัย' },
+  ]
+};
+
+let data = JSON.parse(JSON.stringify(defaults));
+
+function loadFromStorage() {
+  const saved = localStorage.getItem('czerve_cms_data');
+  if (saved) { try { data = JSON.parse(saved); } catch(e) {} }
+}
+
+function applyData() {
+  // Hero
+  document.getElementById('hero-tag').textContent = data.heroTag;
+  document.getElementById('hero-title-1').textContent = data.heroT1;
+  document.getElementById('hero-title-em').textContent = data.heroEm;
+  document.getElementById('hero-title-2').textContent = data.heroT2;
+  document.getElementById('hero-sub').textContent = data.heroSub;
+  document.getElementById('stat-exp').textContent = data.statExp;
+  document.getElementById('stat-clients').textContent = data.statClients;
+  document.getElementById('stat-courses').textContent = data.statCourses;
+  // About
+  document.getElementById('about-title').textContent = data.aboutTitle;
+  document.getElementById('about-desc').textContent = data.aboutDesc;
+  document.getElementById('vision-text').textContent = data.vision;
+  document.getElementById('mission-text').textContent = data.mission;
+  document.getElementById('about-card1').textContent = data.card1;
+  document.getElementById('about-card2').textContent = data.card2;
+  document.getElementById('about-card3').textContent = data.card3;
+  // Contact
+  document.getElementById('contact-address').textContent = data.address;
+  document.getElementById('contact-phone').textContent = data.phone;
+  document.getElementById('contact-email').textContent = data.email;
+  document.getElementById('contact-facebook').textContent = data.facebook;
+  document.getElementById('footer-desc').textContent = data.footerDesc;
+  document.getElementById('footer-copy').textContent = data.footerCopy;
+  // Services
+  renderServices();
+  renderISO();
+}
+
+function renderServices() {
+  const c = document.getElementById('services-container');
+  c.innerHTML = data.services.map(s => `
+    <div class="service-card">
+      <div class="service-icon">${s.icon}</div>
+      <h3>${s.name}</h3>
+      <p>${s.desc}</p>
+      <div class="service-price">${s.price}</div>
+    </div>
+  `).join('');
+}
+
+function renderISO() {
+  const c = document.getElementById('iso-container');
+  c.innerHTML = data.isoCards.map(s => `
+    <div class="iso-card">
+      <div class="iso-badge">${s.badge}</div>
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+    </div>
+  `).join('');
+}
+
+function fillCMSFields() {
+  document.getElementById('f-hero-tag').value = data.heroTag;
+  document.getElementById('f-hero-t1').value = data.heroT1;
+  document.getElementById('f-hero-em').value = data.heroEm;
+  document.getElementById('f-hero-t2').value = data.heroT2;
+  document.getElementById('f-hero-sub').value = data.heroSub;
+  document.getElementById('f-stat-exp').value = data.statExp;
+  document.getElementById('f-stat-clients').value = data.statClients;
+  document.getElementById('f-stat-courses').value = data.statCourses;
+  document.getElementById('f-about-title').value = data.aboutTitle;
+  document.getElementById('f-about-desc').value = data.aboutDesc;
+  document.getElementById('f-vision').value = data.vision;
+  document.getElementById('f-mission').value = data.mission;
+  document.getElementById('f-card1').value = data.card1;
+  document.getElementById('f-card2').value = data.card2;
+  document.getElementById('f-card3').value = data.card3;
+  document.getElementById('f-address').value = data.address;
+  document.getElementById('f-phone').value = data.phone;
+  document.getElementById('f-email').value = data.email;
+  document.getElementById('f-facebook').value = data.facebook;
+  document.getElementById('f-footer-desc').value = data.footerDesc;
+  document.getElementById('f-footer-copy').value = data.footerCopy;
+
+  // Services CMS
+  const sl = document.getElementById('services-cms-list');
+  sl.innerHTML = data.services.map((s, i) => `
+    <div class="service-item">
+      <div class="service-item-header">
+        <span>บริการที่ ${i+1}</span>
+        <button onclick="removeService(${i})" style="background:rgba(220,50,50,0.1); border:none; color:#e05; border-radius:6px; padding:4px 10px; cursor:pointer; font-size:0.8rem;">ลบ</button>
+      </div>
+      <div class="cms-field"><label>ไอคอน (Emoji)</label><input value="${s.icon}" onchange="data.services[${i}].icon=this.value" style="max-width:80px"></div>
+      <div class="cms-field"><label>ชื่อบริการ</label><input value="${s.name}" onchange="data.services[${i}].name=this.value"></div>
+      <div class="cms-field"><label>คำอธิบาย</label><textarea onchange="data.services[${i}].desc=this.value">${s.desc}</textarea></div>
+      <div class="cms-field"><label>ราคา</label><input value="${s.price}" onchange="data.services[${i}].price=this.value"></div>
+    </div>
+  `).join('');
+
+  // ISO CMS
+  const il = document.getElementById('iso-cms-list');
+  il.innerHTML = data.isoCards.map((s, i) => `
+    <div class="service-item">
+      <div class="service-item-header"><span>${s.badge}</span></div>
+      <div class="cms-field"><label>ป้าย Badge</label><input value="${s.badge}" onchange="data.isoCards[${i}].badge=this.value"></div>
+      <div class="cms-field"><label>ชื่อระบบ</label><input value="${s.title}" onchange="data.isoCards[${i}].title=this.value"></div>
+      <div class="cms-field"><label>คำอธิบาย</label><textarea onchange="data.isoCards[${i}].desc=this.value">${s.desc}</textarea></div>
+    </div>
+  `).join('');
+}
+
+function collectFields() {
+  data.heroTag = document.getElementById('f-hero-tag').value;
+  data.heroT1 = document.getElementById('f-hero-t1').value;
+  data.heroEm = document.getElementById('f-hero-em').value;
+  data.heroT2 = document.getElementById('f-hero-t2').value;
+  data.heroSub = document.getElementById('f-hero-sub').value;
+  data.statExp = document.getElementById('f-stat-exp').value;
+  data.statClients = document.getElementById('f-stat-clients').value;
+  data.statCourses = document.getElementById('f-stat-courses').value;
+  data.aboutTitle = document.getElementById('f-about-title').value;
+  data.aboutDesc = document.getElementById('f-about-desc').value;
+  data.vision = document.getElementById('f-vision').value;
+  data.mission = document.getElementById('f-mission').value;
+  data.card1 = document.getElementById('f-card1').value;
+  data.card2 = document.getElementById('f-card2').value;
+  data.card3 = document.getElementById('f-card3').value;
+  data.address = document.getElementById('f-address').value;
+  data.phone = document.getElementById('f-phone').value;
+  data.email = document.getElementById('f-email').value;
+  data.facebook = document.getElementById('f-facebook').value;
+  data.footerDesc = document.getElementById('f-footer-desc').value;
+  data.footerCopy = document.getElementById('f-footer-copy').value;
+}
+
+function saveAll() {
+  collectFields();
+  localStorage.setItem('czerve_cms_data', JSON.stringify(data));
+  applyData();
+  fillCMSFields();
+  showToast();
+}
+
+function loadDefaults() {
+  if (!confirm('รีเซ็ตข้อมูลทั้งหมดกลับค่าเริ่มต้น?')) return;
+  data = JSON.parse(JSON.stringify(defaults));
+  localStorage.removeItem('czerve_cms_data');
+  applyData();
+  fillCMSFields();
+  showToast('↺ รีเซ็ตเรียบร้อย');
+}
+
+function addService() {
+  data.services.push({ icon: '⭐', name: 'บริการใหม่', desc: 'คำอธิบายบริการ', price: 'ติดต่อสอบถาม' });
+  fillCMSFields();
+}
+
+function removeService(i) {
+  data.services.splice(i, 1);
+  fillCMSFields();
+}
+
+function toggleCMS() {
+  const p = document.getElementById('cms-panel');
+  p.classList.toggle('open');
+  if (p.classList.contains('open')) fillCMSFields();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.cms-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cms-section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('cms-toast');
+  t.textContent = msg || '✅ บันทึกเรียบร้อยแล้ว!';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// INIT
+loadFromStorage();
+applyData();
+</script>
+</body>
+</html>
